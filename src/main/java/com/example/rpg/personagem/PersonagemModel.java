@@ -1,7 +1,11 @@
 package com.example.rpg.personagem;
 
 import com.example.rpg.enums.ClassePersonagem;
+import com.example.rpg.itemMagico.ItemMagicoModel;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_personagem")
@@ -15,6 +19,17 @@ public class PersonagemModel {
     private int level;
     private int forca;
     private int defesa;
+
+    public List<ItemMagicoModel> getItensMagicos() {
+        return itensMagicos;
+    }
+
+    public void setItensMagicos(List<ItemMagicoModel> itensMagicos) {
+        this.itensMagicos = itensMagicos;
+    }
+
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemMagicoModel> itensMagicos = new ArrayList<>();
 
     public ClassePersonagem getClasse() {
         return classe;

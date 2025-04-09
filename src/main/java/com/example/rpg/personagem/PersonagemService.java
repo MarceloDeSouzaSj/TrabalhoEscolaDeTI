@@ -8,15 +8,14 @@ public class PersonagemService {
     @Autowired
     private PersonagemRepository personagemRepository;
 
-    public String salvar(PersonagemModel personagem){
+    public PersonagemModel salvar(PersonagemModel personagem){
         if(personagem.getDefesa() + personagem.getForca() > 10)
-            return "O personagem não pode ter mais de 10 pontos de atributo!";
+            return null;
 
-        personagemRepository.save(personagem);
-        return "Personagem criado com sucesso! Identificador: " + personagem.getIdentificador();
+        return personagemRepository.save(personagem);
     }
 
     public PersonagemModel buscarPersonagemPorIdentificador(Long id){
-        return personagemRepository.findById(id).get();
+        return personagemRepository.findById(id).orElse(null);
     }
 }

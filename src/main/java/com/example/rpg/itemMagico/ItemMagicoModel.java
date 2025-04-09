@@ -1,6 +1,7 @@
 package com.example.rpg.itemMagico;
 
 import com.example.rpg.enums.TipoDoItem;
+import com.example.rpg.personagem.PersonagemModel;
 import jakarta.persistence.*;
 @Entity
 @Table(name = "tbl_item_magico")
@@ -13,7 +14,16 @@ public class ItemMagicoModel {
     private int forca;
     private int defesa;
 
+    @ManyToOne
+    @JoinColumn(name = "personagem_id")  // Cria a chave estrangeira
+    private PersonagemModel personagem;
+
+
     public ItemMagicoModel() {
+    }
+
+    public PersonagemModel getPersonagem() {
+        return personagem;
     }
 
     public Long getIdentificador() {

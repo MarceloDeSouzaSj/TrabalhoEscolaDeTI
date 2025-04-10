@@ -18,4 +18,9 @@ public class PersonagemService {
     public PersonagemModel buscarPersonagemPorIdentificador(Long id){
         return personagemRepository.findById(id).orElse(null);
     }
+
+    public Long deletarPersonagem(Long id) {
+        personagemRepository.deleteById(id);
+        return id;
+    }
 }

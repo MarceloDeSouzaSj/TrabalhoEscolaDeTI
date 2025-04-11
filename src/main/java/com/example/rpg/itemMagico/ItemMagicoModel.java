@@ -2,6 +2,7 @@ package com.example.rpg.itemMagico;
 
 import com.example.rpg.enums.TipoDoItem;
 import com.example.rpg.personagem.PersonagemModel;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 @Entity
 @Table(name = "tbl_item_magico")
@@ -15,9 +16,9 @@ public class ItemMagicoModel {
     private int defesa;
 
     @ManyToOne
-    @JoinColumn(name = "personagem_id")  // Cria a chave estrangeira
+    @JoinColumn(name = "personagem_id")
+    @JsonBackReference
     private PersonagemModel personagem;
-
 
     public ItemMagicoModel() {
     }
@@ -60,6 +61,10 @@ public class ItemMagicoModel {
 
     public void setDefesa(int defesa) {
         this.defesa = defesa;
+    }
+
+    public void setPersonagem(PersonagemModel personagem) {
+        this.personagem = personagem;
     }
 
     public ItemMagicoModel(String nome, TipoDoItem tipoDoItem, int forca, int defesa) {

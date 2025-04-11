@@ -1,5 +1,6 @@
 package com.example.rpg.personagem;
 
+import com.example.rpg.personagem.dto.ApresentarPersonagemDto;
 import com.example.rpg.personagem.dto.PersonagemDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,12 +55,12 @@ public class PersonagemController {
     @GetMapping("{identificador}")
     @Operation(summary = "Buscar personagem por identificador", description = "Insira o identificador do personagem")
     public ResponseEntity<?> buscarPorIdentificador(@PathVariable Long identificador) {
-        PersonagemModel personagem = personagemService.buscarPersonagemPorIdentificador(identificador);
-        if (personagem == null)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Personagem " + identificador + " não encontrado!");
-
-        return ResponseEntity.status(HttpStatus.OK).body(personagem);
-
+        try {
+            ApresentarPersonagemDto personagem = personagemService.buscarPersonagemPorIdentificador(identificador);
+            return ResponseEntity.status(HttpStatus.OK).body(personagem);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
     }
 
     @GetMapping()

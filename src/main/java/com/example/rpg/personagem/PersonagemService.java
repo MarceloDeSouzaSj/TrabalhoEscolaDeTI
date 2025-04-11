@@ -4,6 +4,7 @@ import com.example.rpg.enums.TipoDoItem;
 import com.example.rpg.erros.MensagemErro;
 import com.example.rpg.itemMagico.ItemMagicoModel;
 import com.example.rpg.itemMagico.ItemMagicoRepository;
+import com.example.rpg.personagem.dto.ApresentarPersonagemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,11 @@ public class PersonagemService {
         return personagemRepository.save(personagem);
     }
 
-    public PersonagemModel buscarPersonagemPorIdentificador(Long id) {
-        return personagemRepository.findById(id).orElse(null);
+    public ApresentarPersonagemDto buscarPersonagemPorIdentificador(Long id) {
+        PersonagemModel personagem = personagemRepository.findById(id).orElseThrow(() -> new MensagemErro("Personagem não encontrado"));
+
+        ApresentarPersonagemDto response = new ApresentarPersonagemDto(personagem.getNome(), personagem.getNomeAventureiro(), personagem.getClasse(), personagem.getLevel(), personagem.getForca(), personagem.getDefesa(), personagem.getItensMagicos());
+        return response;
     }
 
     public Long deletarPersonagem(Long id) {
@@ -46,14 +50,14 @@ public class PersonagemService {
 
     }
 
-    public PersonagemModel colocarItemMagicoNoPersonagem(Long idItem, Long idPersonagem){
+    public PersonagemModel colocarItemMagicoNoPersonagem(Long idItem, Long idPersonagem) {
         PersonagemModel personagem = personagemRepository.findById(idPersonagem).orElseThrow(() -> new MensagemErro("Personagem não encontrado"));
-        ItemMagicoModel item =  itemMagicoRepository.findById(idItem).orElseThrow(() -> new MensagemErro("Item não encontrado"));
+        ItemMagicoModel item = itemMagicoRepository.findById(idItem).orElseThrow(() -> new MensagemErro("Item não encontrado"));
         List<ItemMagicoModel> itens = personagem.getItensMagicos();
 
-        if(item.getTipoDoItem() == TipoDoItem.Amuleto){
+        if (item.getTipoDoItem() == TipoDoItem.Amuleto) {
 
-            if(itens.stream().anyMatch(i -> i.getTipoDoItem() == TipoDoItem.Amuleto))
+            if (itens.stream().anyMatch(i -> i.getTipoDoItem() == TipoDoItem.Amuleto))
                 throw new MensagemErro("O personagem não pode possuír mais de um item do tipo amuleto!");
         }
         item.setPersonagem(personagem);

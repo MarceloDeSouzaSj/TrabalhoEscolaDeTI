@@ -1,7 +1,6 @@
 package com.example.rpg.personagem.dto;
 
 import com.example.rpg.enums.ClassePersonagem;
-import com.example.rpg.itemMagico.ItemMagicoDto;
 import com.example.rpg.itemMagico.ItemMagicoModel;
 
 import java.util.List;

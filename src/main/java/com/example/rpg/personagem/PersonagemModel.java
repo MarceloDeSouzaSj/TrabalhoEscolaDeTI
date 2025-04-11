@@ -44,8 +44,6 @@ public class PersonagemModel {
         itensMagicos.add(item);
     }
 
-
-
     public ClassePersonagem getClasse() {
         return classe;
     }

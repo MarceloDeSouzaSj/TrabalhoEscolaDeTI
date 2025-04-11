@@ -12,6 +12,7 @@ public class ApresentarPersonagemDto {
     private int level;
     private int forca;
     private int defesa;
+    private List<ItemMagicoModel> itens;
 
     public ApresentarPersonagemDto(String nome, String nomeAventureiro, ClassePersonagem classe, int level, int forca, int defesa, List<ItemMagicoModel> itens) {
         this.nome = nome;
@@ -25,9 +26,18 @@ public class ApresentarPersonagemDto {
         }
         this.forca = forca;
         this.defesa = defesa;
+        this.itens = itens;
     }
 
     public ApresentarPersonagemDto() {
+    }
+
+    public List<ItemMagicoModel> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemMagicoModel> itens) {
+        this.itens = itens;
     }
 
     public String getNome() {

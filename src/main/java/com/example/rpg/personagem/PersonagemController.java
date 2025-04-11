@@ -1,5 +1,6 @@
 package com.example.rpg.personagem;
 
+import com.example.rpg.itemMagico.ItemMagicoModel;
 import com.example.rpg.personagem.dto.ApresentarPersonagemDto;
 import com.example.rpg.personagem.dto.PersonagemDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,7 +43,8 @@ public class PersonagemController {
     }
 
     @PutMapping("{identificadorDoItem}/{identificadorDoPersonagem}")
-    @Operation(summary = "Adicionar item mágico ao personagem", description = "Insira o identificador do item mágico e do personagem")
+    @Operation(summary = "Adicionar item mágico ao personagem", description = "Insira o identificador do item mágico e do personagem <br>" +
+            "Cada item mágico deve estar vinculado a somente um personagem")
     public ResponseEntity<?> adicionarItemMagicoAoPersonagem(@PathVariable Long identificadorDoItem, @PathVariable Long identificadorDoPersonagem) {
         try {
             return ResponseEntity.ok(personagemService.colocarItemMagicoNoPersonagem(identificadorDoItem, identificadorDoPersonagem));
@@ -63,15 +65,51 @@ public class PersonagemController {
         }
     }
 
+    @GetMapping("ListarItensMagicos/{identificador}")
+    @Operation(summary = "Listar itens mágicos do personagem", description = "Insira o identificador do personagem")
+    public ResponseEntity<?> listarItensMagicosDoPersonagem(@PathVariable Long identificador) {
+        try {
+            List<ItemMagicoModel> itens = personagemService.listarItemMagicoDoPersonagem(identificador);
+            return ResponseEntity.status(HttpStatus.OK).body(itens);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
+    }
+
+    @GetMapping("BuscarAmuleto/{identificador}")
+    @Operation(summary = "Buscar amuleto do personagem", description = "Insira o identificador do personagem")
+    public ResponseEntity<?> buscarAmuleto(@PathVariable Long identificador) {
+        try {
+            ItemMagicoModel item = personagemService.buscarAmuleto(identificador);
+            return ResponseEntity.status(HttpStatus.OK).body(item);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
+    }
+
     @GetMapping()
     @Operation(summary = "Listar personagens")
-    public ResponseEntity<List<PersonagemModel>> ListarPersonagem() {
-        return ResponseEntity.status(HttpStatus.OK).body(personagemService.listarPersonagem());
+    public ResponseEntity<?> ListarPersonagem() {
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(personagemService.listarPersonagem());
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
     }
 
     @DeleteMapping("{identificador}")
     @Operation(summary = "Deletar personagem")
     public ResponseEntity<?> deletarPorId(@PathVariable Long identificador) {
         return ResponseEntity.status(HttpStatus.OK).body(personagemService.deletarPersonagem(identificador));
+    }
+
+    @DeleteMapping("{identificadorDoItem}/{identificadorDoPersonagem}")
+    @Operation(summary = "Remove o item mágico do personagem", description = "Insira o identificador do item mágico e do personagem <br>")
+    public ResponseEntity<?> removerItemMagicoDoPersonagem(@PathVariable Long identificadorDoItem, @PathVariable Long identificadorDoPersonagem) {
+        try {
+            return ResponseEntity.ok(personagemService.RemoverItemMagicoDoPersonagem(identificadorDoItem, identificadorDoPersonagem));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
     }
 }

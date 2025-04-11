@@ -28,7 +28,7 @@ public class PersonagemModel {
     @Column(nullable = false)
     private int defesa;
 
-    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "personagem", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<ItemMagicoModel> itensMagicos = new ArrayList<>();
 

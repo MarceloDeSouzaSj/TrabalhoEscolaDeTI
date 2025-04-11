@@ -67,6 +67,10 @@ public class ItemMagicoModel {
         this.personagem = personagem;
     }
 
+    public void RemoverPersonagem(){
+        this.personagem = null;
+    }
+
     public ItemMagicoModel(String nome, TipoDoItem tipoDoItem, int forca, int defesa) {
         this.nome = nome;
         this.tipoDoItem = tipoDoItem;
